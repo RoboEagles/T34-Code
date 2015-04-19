@@ -64,7 +64,7 @@
 	<table><tr>
 	<th class="pound">PCM</th>
 	<th>Device</th></tr>
-	            	    <tr><td>0</td><td>Measurement RobotCompressor</td></tr>
+	            	    <tr><td>0</td><td>Compression RobotCompressor</td></tr>
 	                                                                                                                                                                                                                                                                                                                 	</table>
       </body>
 </html>
