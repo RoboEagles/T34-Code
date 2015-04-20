@@ -39,6 +39,10 @@ public class  Aim extends Command {
     protected void initialize() {
     	Robot.aimer.start();
     }
+    
+    /*
+     * Note from Joe:  Let's talk about this segment of code.
+     */
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
