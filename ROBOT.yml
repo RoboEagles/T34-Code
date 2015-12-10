@@ -136,49 +136,33 @@ Children:
           value: driveTrain frontLeft_M
       Base: Robot Drive 4
       Name: driveBase
-    - Children: []
-      Properties:
-        Sensitivity: !!robotbuilder.data.properties.DoubleProperty {default: 0.007,
-          name: Sensitivity, validators: null, value: 0.007}
-        Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2']
-          default: '1'
-          name: Input Channel (Analog)
-          validators: [AnalogInput]
-          value: '1'
-        Input Module (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1']
-          default: '1'
-          name: Input Module (Analog)
-          validators: [AnalogInput]
-          value: '1'
-      Base: Gyro
-      Name: robotGyro
-    - Children: []
-      Properties:
-        Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2', '3', '4', '5', '6', '7', '8']
-          default: '1'
-          name: Input Channel (Analog)
-          validators: [AnalogInput]
-          value: '2'
-        Volts Per G: !!robotbuilder.data.properties.DoubleProperty {default: '1',
-          name: Volts Per G, validators: null, value: 1.0}
-        Zero G Volts: !!robotbuilder.data.properties.DoubleProperty {default: 2.5,
-          name: Zero G Volts, validators: null, value: 2.5}
-        Input Module (Analog): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['1', '2']
-          default: '1'
-          name: Input Module (Analog)
-          validators: [AnalogInput]
-          value: '1'
-      Base: Accelerometer
-      Name: robotAccelerometer
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: driveCmd}
     Base: Subsystem
     Name: driveTrain
+  - Children:
+    - Children: []
+      Properties:
+        Output Module (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+          choices: &id010 ['1', '2']
+          default: '1'
+          name: Output Module (Solenoid)
+          validators: &id011 [Solenoid]
+          value: '1'
+        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+          choices: &id012 ['1', '2', '3', '4', '5', '6', '7', '8']
+          default: '1'
+          name: Output Channel (Solenoid)
+          validators: &id013 [Solenoid]
+          value: '1'
+      Base: Solenoid
+      Name: shootSolenoid
+    Properties:
+      Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Default Command, type: Command, validators: null, value: None}
+    Base: Subsystem
+    Name: shoot
   - Children:
     - Children: []
       Properties:
@@ -325,25 +309,47 @@ Children:
   - Children:
     - Children: []
       Properties:
-        Output Module (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id010 ['1', '2']
+        Sensitivity: !!robotbuilder.data.properties.DoubleProperty {default: 0.007,
+          name: Sensitivity, validators: null, value: 0.007}
+        Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['1', '2']
           default: '1'
-          name: Output Module (Solenoid)
-          validators: &id011 [Solenoid]
+          name: Input Channel (Analog)
+          validators: [AnalogInput]
           value: '1'
-        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id012 ['1', '2', '3', '4', '5', '6', '7', '8']
+        Input Module (Analog): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['1']
           default: '1'
-          name: Output Channel (Solenoid)
-          validators: &id013 [Solenoid]
+          name: Input Module (Analog)
+          validators: [AnalogInput]
           value: '1'
-      Base: Solenoid
-      Name: shootSolenoid
+      Base: Gyro
+      Name: robotGyro
+    - Children: []
+      Properties:
+        Input Channel (Analog): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['1', '2', '3', '4', '5', '6', '7', '8']
+          default: '1'
+          name: Input Channel (Analog)
+          validators: [AnalogInput]
+          value: '2'
+        Volts Per G: !!robotbuilder.data.properties.DoubleProperty {default: '1',
+          name: Volts Per G, validators: null, value: 1.0}
+        Zero G Volts: !!robotbuilder.data.properties.DoubleProperty {default: 2.5,
+          name: Zero G Volts, validators: null, value: 2.5}
+        Input Module (Analog): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['1', '2']
+          default: '1'
+          name: Input Module (Analog)
+          validators: [AnalogInput]
+          value: '1'
+      Base: Accelerometer
+      Name: robotAccelerometer
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: None}
     Base: Subsystem
-    Name: shoot
+    Name: measurement
   - Children:
     - Children: []
       Properties:
@@ -387,7 +393,7 @@ Children:
           name: Command
           type: Command
           validators: &id015 [TypeDropdownSelected]
-          value: shootCmd
+          value: shootCmdGrp
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
           choices: &id016 [whileHeld, whenPressed, whenReleased]
           default: whileHeld
@@ -440,7 +446,7 @@ Children:
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
-    Name: Autonomous Command
+    Name: autonomousCmd
   - Children: []
     Properties:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
@@ -473,11 +479,25 @@ Children:
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
     Name: aimCmd
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: measurement}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: measureCmd
+  - Children: []
+    Properties:
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command Group
+    Name: shootCmdGrp
   Properties: {}
   Base: Commands
   Name: Commands
 Properties:
-  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\jaden\NetBeansProjects',
+  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\bstevens\NetBeansProjects',
     extension: null, folder: true, name: Java Project Directory, validators: null,
     value: .\}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
@@ -496,6 +516,6 @@ Properties:
   Wiring File: !!robotbuilder.data.properties.FileProperty {default: '', extension: html,
     folder: false, name: Wiring File, validators: null, value: Wiring.html}
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
-    name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
+    name: Autonomous Command, type: Command, validators: null, value: autonomousCmd}
 Base: Robot
 Name: T34
