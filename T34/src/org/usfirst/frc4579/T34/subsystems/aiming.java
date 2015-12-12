@@ -97,6 +97,11 @@ public class aiming extends PIDSubsystem {
         return getMaxAngleLimit() || getMinAngleLimit();
     }
     
+    public void stop() {
+        disable();
+        aimMotor.set(0.0);
+    }
+    
     protected double returnPIDInput() {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:

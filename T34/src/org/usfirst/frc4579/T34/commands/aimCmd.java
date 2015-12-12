@@ -15,7 +15,8 @@ import org.usfirst.frc4579.T34.Robot;
  */
 public class  aimCmd extends Command {
     
-    private double percent = 0.0;
+    private double percent = 0.0,
+            lastPercent = 0.0;
     
     public aimCmd() {
         // Use requires() here to declare subsystem dependencies
@@ -27,34 +28,62 @@ public class  aimCmd extends Command {
     }
     // Called just before this Command runs the first time
     protected void initialize() {
-        
         update();
-        
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         
-        update();
-        Robot.aiming.setAnglePercent(percent);
+        update(); //Updates percent variable every cycle for computation of logic
         
+        if(Robot.aiming.limitReached()) {
+             /* This method contains code to handle when the
+                cannon has hit a limit switch */
+            limitReachedLogic();
+        } else {
+            //Sets cannon angle for the desired percent
+            setAimingAnglePercent(percent);
+        }
     }
+    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.aiming.limitReached();
+        return false;
     }
+    
     // Called once after isFinished returns true
     protected void end() {
-        
-        Robot.aiming.setAngle(0); // Sets angle to zero
-        
+        Robot.aiming.stop(); // Sets angle to zero    
     }
+    
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
         end();
     }
     
+    //Updates percent variable
     private void update() {
         percent = Robot.oi.getdriveStick().getThrottle();
+    }
+    
+    //Sets the angle of the aimer by percent for this command
+    private void setAimingAnglePercent(double percent) {
+        Robot.aiming.setAnglePercent(percent);
+        lastPercent = percent;
+    }
+    
+    //Logic to command aimer when the limit is reached
+    private void limitReachedLogic() {
+        
+        if(Robot.aiming.getMaxAngleLimit()) {//If the cannon has too high of an angle
+            if((lastPercent - percent) < 0) { // If the operator wants a smaller angle
+                setAimingAnglePercent(percent);   
+            }
+        } else if(Robot.aiming.getMinAngleLimit()) { // If the cannon has too low of an angle
+            if((lastPercent - percent) > 0) { // If the operater wants a greater angle
+                setAimingAnglePercent(percent);
+            }
+        }
+        
     }
 }
