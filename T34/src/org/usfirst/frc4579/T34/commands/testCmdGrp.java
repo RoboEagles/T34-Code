@@ -10,16 +10,14 @@
 
 
 package org.usfirst.frc4579.T34.commands;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import org.usfirst.frc4579.T34.RobotMap;
 
 /**
  *
  */
-public class shootCmdGrp extends CommandGroup {
+public class testCmdGrp extends CommandGroup {
     
-    public  shootCmdGrp() {
+    public  testCmdGrp() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -36,8 +34,5 @@ public class shootCmdGrp extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-        addSequential(new shootCmd());
-        Timer.delay(RobotMap.SHOOT_RELOAD_DELAY);//Delays these commands by a pre-set value
-        addSequential(new reloadCmd());
     }
 }

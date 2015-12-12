@@ -144,20 +144,20 @@ Children:
   - Children:
     - Children: []
       Properties:
-        Output Module (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+        Output Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
           choices: &id010 ['1', '2']
           default: '1'
-          name: Output Module (Solenoid)
-          validators: &id011 [Solenoid]
+          name: Output Module (Digital)
+          validators: &id011 [RelayOutput]
           value: '1'
-        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+        Output Channel (Relay): !!robotbuilder.data.properties.ChoicesProperty
           choices: &id012 ['1', '2', '3', '4', '5', '6', '7', '8']
           default: '1'
-          name: Output Channel (Solenoid)
-          validators: &id013 [Solenoid]
+          name: Output Channel (Relay)
+          validators: &id013 [RelayOutput]
           value: '1'
-      Base: Solenoid
-      Name: shootSolenoid
+      Base: Spike
+      Name: shootSpike
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: None}
@@ -353,20 +353,20 @@ Children:
   - Children:
     - Children: []
       Properties:
-        Output Module (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+        Output Module (Digital): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
-          name: Output Module (Solenoid)
+          name: Output Module (Digital)
           validators: *id011
           value: '1'
-        Output Channel (Solenoid): !!robotbuilder.data.properties.ChoicesProperty
+        Output Channel (Relay): !!robotbuilder.data.properties.ChoicesProperty
           choices: *id012
           default: '1'
-          name: Output Channel (Solenoid)
+          name: Output Channel (Relay)
           validators: *id013
           value: '2'
-      Base: Solenoid
-      Name: reloadSolenoid
+      Base: Spike
+      Name: reloadSpike
     Properties:
       Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Default Command, type: Command, validators: null, value: None}
@@ -493,11 +493,55 @@ Children:
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command Group
     Name: shootCmdGrp
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: shoot}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: shootTest
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: reload}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: reloadTest
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: driveTrain}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: driveTest
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.ComponentSelectionProperty
+        componentName: PID Subsystem
+        default: None
+        name: Requires
+        validators: [TypeDropdownSelected]
+        value: aiming
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+      Setpoint: !!robotbuilder.data.properties.DoubleProperty {default: 1, name: Setpoint,
+        validators: null, value: 0.0}
+    Base: Setpoint Command
+    Name: aimTest
+  - Children: []
+    Properties:
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command Group
+    Name: testCmdGrp
   Properties: {}
   Base: Commands
   Name: Commands
 Properties:
-  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\bstevens\NetBeansProjects',
+  Java Project Directory: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\jaden\NetBeansProjects',
     extension: null, folder: true, name: Java Project Directory, validators: null,
     value: .\}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,

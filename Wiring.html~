@@ -57,7 +57,8 @@
 	<th class="pound">#</th>
 	<th>Solenoid</th></tr>
 	            	    <tr><td>1</td><td>shoot shootSolenoid Output </td></tr>
-	                                                                                                                                                                                                                                         	</table>
+	            	    <tr><td>2</td><td>reload reloadSolenoid Output </td></tr>
+	                                                                                                                                                                                                                             	</table>
                     
   </body>
 </html>
