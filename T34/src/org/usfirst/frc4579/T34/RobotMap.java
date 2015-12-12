@@ -61,6 +61,8 @@ public class RobotMap {
     public static final double RELOAD_TIME = 0.5; // Time reload solenoid stays extended
     public static final double SHOOT_RELOAD_DELAY = 0.5; // Time delayed after shoot to reload
     
+    public static final double CALIBRATION_TIME = 2.0; // Time for sensor calibration (seconds)
+    
     public static void init() {
         
         

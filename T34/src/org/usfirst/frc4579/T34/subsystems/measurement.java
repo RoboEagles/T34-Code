@@ -26,10 +26,16 @@ public class measurement extends Subsystem {
     ADXL345_SPI robotPrimaryAccelerometer = new ADXL345_SPI(1, 2, ADXL345_SPI.DataFormat_Range.k2G);
     
     //Acceleration in Gs
-    Vector3d accelVector = new Vector3d(0.0,0.0,00);
+    Vector3d accelVector = new Vector3d(0,0,0),
+             lastAccelVector = new Vector3d(0,0,0), //Previous cycle's acceleration measurement
+             accelLossPerSecond = new Vector3d(0,0,0); //Loss of accel (Gs) per second
     
     //Gyro angle in degrees
-    double gyroAngle = 0.0;
+    double gyroAngle = 0,
+           lastGyroAngle = 0, // Previous cycle's gyro measurement
+           gyroLossPerSecond = 0; //Loss of angle (degrees) per second
+    
+    private double startTime = 0;
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -54,10 +60,32 @@ public class measurement extends Subsystem {
     }
     
     public void initialize() {
+        robotGyro.reset();
+    }
+    
+    public void calibrate() {
+        
+        measureRaw();
+        
+        lastAccelVector.X = accelVector.X;
+        lastAccelVector.Y = accelVector.Y;
+        lastAccelVector.Z = accelVector.Z;
+        lastGyroAngle = gyroAngle;
+        
+        Timer.delay(RobotMap.CALIBRATION_TIME); //Delays code for some seconds
+        
+        measureRaw();
+        
+        accelLossPerSecond.X = (lastAccelVector.X - accelVector.X) / RobotMap.CALIBRATION_TIME;
+        accelLossPerSecond.Y = (lastAccelVector.Y - accelVector.Y) / RobotMap.CALIBRATION_TIME;
+        accelLossPerSecond.Z = (lastAccelVector.Z - accelVector.Z) / RobotMap.CALIBRATION_TIME;
+        gyroLossPerSecond = (lastGyroAngle - gyroAngle) / RobotMap.CALIBRATION_TIME;
+        
+        startTime = Timer.getFPGATimestamp();
         
     }
     
-    public void measure() {
+    public void measureRaw() {
         
         accelVector.X = robotPrimaryAccelerometer.getAcceleration(ADXL345_SPI.Axes.kX);
         accelVector.Y = robotPrimaryAccelerometer.getAcceleration(ADXL345_SPI.Axes.kY);
@@ -66,4 +94,19 @@ public class measurement extends Subsystem {
         
     }
     
+    public void measure() {
+        
+        measureRaw();
+        
+        accelVector.X += (accelLossPerSecond.X * getTime());
+        accelVector.Y += (accelLossPerSecond.Y * getTime());
+        accelVector.Z += (accelLossPerSecond.Z * getTime());
+        gyroAngle += (gyroLossPerSecond * getTime());
+        
+    }
+    
+    
+    private double getTime() {
+        return Timer.getFPGATimestamp() - startTime;
+    }
 }
