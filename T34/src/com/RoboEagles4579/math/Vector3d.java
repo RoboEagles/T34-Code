@@ -9,14 +9,31 @@ package com.RoboEagles4579.math;
  *
  * @author bstevens
  */
-public class Vector3d {
+public class Vector3d extends Vector2d {
     
-    public double X, Y, Z;
+    public double Z;
     
     public Vector3d(double x, double y, double z) {
-        this.X = x;
-        this.Y = y;
+        super(x,y);
         this.Z = z;
+    }
+    
+    public double magnitude() {//Returns magnitude of the vector
+        return Math.sqrt(X*X + Y*Y + Z*Z);
+    }
+    
+    public double angleXZ() {
+        return Math.tan(X / Z);
+    }
+    
+    public double angleYZ() {
+        return Math.tan(Y / Z);
+    }
+    
+    public void reset() {
+        X = 0;
+        Y = 0;
+        Z = 0;
     }
     
 }

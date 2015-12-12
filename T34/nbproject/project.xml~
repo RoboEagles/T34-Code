@@ -84,7 +84,7 @@
             <compilation-unit>
                 <package-root>src</package-root>
                 <classpath mode="boot">${sunspot.home}\lib\squawk.jar</classpath>
-                <classpath mode="compile">C:/Users/jaden/sunspotfrcsdk\lib\wpilibj.jar;C:/Users/jaden/sunspotfrcsdk\lib\networktables-crio.jar;C:\Users\jaden\sunspotfrcsdk\doc</classpath>
+                <classpath mode="compile">../sunspotfrcsdk/lib/wpilibj.jar;../sunspotfrcsdk/lib/networktables-crio.jar;../sunspotfrcsdk/doc</classpath>
                 <built-to>build</built-to>
                 <source-level>1.4</source-level>
             </compilation-unit>
