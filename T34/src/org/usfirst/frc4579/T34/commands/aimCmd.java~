@@ -64,7 +64,9 @@ public class  aimCmd extends Command {
     
     //Updates percent variable
     private void update() {
-        percent = Robot.oi.getdriveStick().getThrottle();
+        percent = 1.0 - Robot.oi.getdriveStick().getThrottle(); 
+        //Z Axis = GetThrottle on SAITEK ST290 PRO, AND THROTTLE DEFAULTS 1.0 LOW
+        //Not applicable to logitech joystick
     }
     
     //Sets the angle of the aimer by percent for this command
