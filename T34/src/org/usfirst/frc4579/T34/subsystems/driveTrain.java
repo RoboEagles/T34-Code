@@ -32,9 +32,13 @@ public class driveTrain extends Subsystem {
     
     public void drive(double x, double y, double z) {
         
-        driveBase.mecanumDrive_Cartesian(xLPF.filter(x), 
-                                         yLPF.filter(y),
-                                         zLPF.filter(z), 
+        x = xLPF.filter(x);
+        y = yLPF.filter(y);
+        z = zLPF.filter(z);
+        
+        driveBase.mecanumDrive_Cartesian(x, 
+                                         y,
+                                         z, 
                                          Robot.measurement.getGyroAngle());
         
     }

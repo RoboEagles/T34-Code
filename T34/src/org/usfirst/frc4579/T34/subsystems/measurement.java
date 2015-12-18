@@ -119,8 +119,9 @@ public class measurement extends Subsystem {
         accelVector.Z += (accelGainPerSecond.Z * time);
         gyroAngle += (gyroGainPerSecond * time);
         
-        relativeFieldPosition.X += (0.5) * accelVector.X * time * time; 
-        relativeFieldPosition.Y += (0.5) * accelVector.Y * time * time;
+        //Actually calculates field position with gyro and accelerometer
+        relativeFieldPosition.X += ((0.5) * accelVector.X * time * time)*(Math.sin(getGyroRadians())); 
+        relativeFieldPosition.Y += ((0.5) * accelVector.Y * time * time)*(Math.cos(getGyroRadians()));
         
     }
     
