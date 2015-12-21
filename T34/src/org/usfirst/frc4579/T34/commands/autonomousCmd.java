@@ -8,6 +8,7 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 package org.usfirst.frc4579.T34.commands;
+import com.RoboEagles4579.math.Vector3d;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc4579.T34.Robot;
 /**
@@ -23,19 +24,28 @@ public class  autonomousCmd extends Command {
     }
     // Called just before this Command runs the first time
     protected void initialize() {
+        Robot.driveTrain.setTargets(new Vector3d(2,0,0)); //Expect to move 2'
+        setTimeout(15);
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        Robot.driveTrain.moveToTarget();
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return isTimedOut();
     }
     // Called once after isFinished returns true
     protected void end() {
+        
+        Robot.driveTrain.stop();
+        
     }
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        
+        end();
+        
     }
 }

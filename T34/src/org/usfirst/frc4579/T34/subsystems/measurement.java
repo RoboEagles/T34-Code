@@ -26,20 +26,20 @@ public class measurement extends Subsystem {
     private static boolean CALIBRATED = false;
     
     //Override robotAcceleromter from RobotBuilder with ADXL345_SPI accelerometer (3-axis)
-    ADXL345_I2C robotPrimaryAccelerometer = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k2G);
+    private ADXL345_I2C robotPrimaryAccelerometer = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k2G);
     
     //Acceleration in Gs
-    Vector3d accelVector = new Vector3d(0,0,0),
-             lastAccelVector = new Vector3d(0,0,0), //Previous cycle's acceleration measurement
-             accelGainPerSecond = new Vector3d(0,0,0); //Loss of accel (Gs) per second
+    private Vector3d accelVector = new Vector3d(0,0,0),
+                     lastAccelVector = new Vector3d(0,0,0), //Previous cycle's acceleration measurement
+                     accelGainPerSecond = new Vector3d(0,0,0); //Loss of accel (Gs) per second
     
     //Stores the calculated relative field position of the robot- disregarding rotation (in feet)
-    Vector2d relativeFieldPosition = new Vector2d(0,0);
+    private Vector2d relativeFieldPosition = new Vector2d(0,0);
     
     //Gyro angle in degrees
-    double gyroAngle = 0,
-           lastGyroAngle = 0, // Previous cycle's gyro measurement
-           gyroGainPerSecond = 0; //Loss of angle (degrees) per second
+    private double gyroAngle = 0,
+                   lastGyroAngle = 0, // Previous cycle's gyro measurement
+                   gyroGainPerSecond = 0; //Loss of angle (degrees) per second
     
     
     private double startTime = 0;
@@ -135,6 +135,10 @@ public class measurement extends Subsystem {
         
     private double getTime() {
         return Timer.getFPGATimestamp() - startTime;
+    }
+    
+    public Vector2d fieldCoordinates() {
+        return relativeFieldPosition;
     }
     
     public double GsToFPS(double Gs) {
